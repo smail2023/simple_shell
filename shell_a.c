@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * @j: Strg to be converted
- * a_to_b - Convert strg to its integer form
- * Return: Integer representation of strg
+ * a_to_b - Convert string to its integer form
+ * @j: String to be converted
+ * Return: Integer representation of string
  */
 int a_to_b(char *j)
 {
@@ -25,9 +25,9 @@ g = (d == -1) ? -t : t;
 return (g);
 }
 /**
- * @e: charr to be checked
- * is_m_char - verify if a char is alphab letter
- * Return: 1 if char is alphabetic 0 if not
+ * is_m_char - Verify if a character is an alphabetic letter
+ * @e: Character to be checked
+ * Return: 1 if character is alphabetic, 0 if not
  */
 int is_m_char(int e)
 {
@@ -36,20 +36,19 @@ return (1);
 return (0);
 }
 /**
- * @u: pointer to struct containing shell info
- * verify_mode - Det if shell is in interactive mode
- * Return: 1 if in interactive mode 0 if not
+ * verify_mode - Determine if shell is in interactive mode
+ * @u: Pointer to struct containing shell info
+ * Return: 1 if in interactive mode, 0 if not
  */
 int verify_mode(info_t *u)
 {
 return (isatty(STDIN_FILENO) && u->readfd <= 2);
 }
 /**
- * is_n_delim - check if a given char
- * is part of a delimiter set
- * @z: String containing delimiter chars
- * @e: Char to be checked
- * Return: 1 if character is a delimiter 0 if not
+ * is_n_delim - Check if a given character is part of a delimiter set
+ * @z: String containing delimiter characters
+ * @e: Character to be checked
+ * Return: 1 if character is a delimiter, 0 if not
  */
 int is_n_delim(char e, char *z)
 {
