@@ -1,21 +1,29 @@
 #include "shell.h"
 
 /**
- * a - terminate shell process
- * @b: contain command args
- * Return: status of exit 
- * exits with given exit status (0)
- * if b.argv[0] != "exit"
+ * check_argv - Checks if an argument is provided.
+ * @b: The structure containing arguments.
+ * Return: -2 if no argument is provided, 0 otherwise.
  */
-int a(c *b)
+int check_argv(c *b)
 {
-int d;
 if (!b->argv[1])
 {
 b->err_num = -1;
 return (-2);
 }
-d = e(b->argv[1]);
+return (0);
+}
+/**
+ * convert_arg_to_int - Converts the argument
+ * to an integer.
+ * @b: The structure containing arguments.
+ * Return: -1 if the conversion fails
+ * converted integer otherwise.
+ */
+int convert_arg_to_int(c *b)
+{
+int d = e(b->argv[1]);
 if (d == -1)
 {
 b->status = 2;
@@ -25,12 +33,61 @@ h('\n');
 return (1);
 }
 b->err_num = d;
-return (-2);
+return (d);
 }
 /**
- * i - modify current directory
- * @b: contains command args
- * Return: Always 0
+ * a - Validates and converts the argument.
+ * @b: The structure containing arguments.
+ * Return: Result after validation and conversion.
+ */
+int a(c *b)
+{
+int result = check_argv(b);
+if (result != 0)
+{
+return (result);
+}
+return (convert_arg_to_int(b));
+}
+/**
+ * get_home_directory - Fetches the home directory.
+ * @b: The structure containing arguments.
+ * Return: Home directory if available, PWD otherwise.
+ */
+char *get_home_directory(c *b)
+{
+char *l;
+l = n(b, "HOME=");
+if (!l)
+{
+l = n(b, "PWD=");
+}
+return (l);
+}
+/**
+ * handle_directory - Handles directory change operations.
+ * @b: The structure containing arguments.
+ * @l: Current directory.
+ * Return: Return value after chdir operation.
+ */
+int handle_directory(c *b, char *l)
+{
+int m;
+if (o(b->argv[1], "-") == 0)
+{
+l = n(b, "OLDPWD=");
+m = chdir(l ? l : "/");
+}
+else
+{
+m = chdir(b->argv[1]);
+}
+return (m);
+}
+/**
+ * i - Implements the 'cd' shell command.
+ * @b: The structure containing arguments.
+ * Return: 0 on success, other values on errors.
  */
 int i(c *b)
 {
@@ -44,63 +101,11 @@ g("ERROR: Unable to fetch current directory\n");
 }
 if (!b->argv[1])
 {
-l = n(b, "HOME=");
-if (!l)
-{
-l = n(b, "PWD=");
+l = get_home_directory(b);
 m = chdir(l ? l : "/");
 }
 else
 {
-m = chdir(l);
+m = handle_directory(b, l);
 }
 }
-else if (o(b->argv[1], "-") == 0)
-{
-l = n(b, "OLDPWD=");
-if (l)
-{
-g(l);
-h('\n');
-}
-else
-{
-g(k);
-h('\n');
-return (1);
-}
-m = chdir(l ? l : "/");
-}
-else
-{
-m = chdir(b->argv[1]);
-}
-if (m == -1)
-{
-f(b, "Failed to change to directory ");
-g(b->argv[1]);
-h('\n');
-}
-else
-{
-p(b, "OLDPWD", n(b, "PWD="));
-p(b, "PWD", getcwd(j, 1024));
-}
-return (0);
-}
-/**
- * q - placeholder for help command
- * @b: contains command args
- * Return: Always 0
- */
-int q(c *b)
-{
-char **r = b->argv;
-g("Help command is operational but not yet detailed\n");
-if (0)
-{
-g(*r); /* Temporary workaround */
-}
-return (0);
-}
-
