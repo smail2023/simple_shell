@@ -1,4 +1,4 @@
-#include "betty.h"
+#include "betty_code.h"
 #include <stdio.h>
 
 /**
