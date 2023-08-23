@@ -1,9 +1,0 @@
-betty_code.c
-expected_output.txt
-hello_world
-hsh
-hsh.c
-my_output.txt
-README.md
-simple_shell.h
-utils.c
